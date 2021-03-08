@@ -1,10 +1,11 @@
 #include <iostream>
 #include <algorithm>
 #include <math.h>
-#include <fstream>
 #include <vector>
-#include "./fast-cpp-csv-parser-master/csv.h"
 #include <string>
+#include "./fast-cpp-csv-parser-master/csv.h"
+#include "./matplotlib-cpp-master/matplotlibcpp.h"
+namespace plt = matplotlibcpp;
 
 typedef struct {
     double x, y;
@@ -65,7 +66,7 @@ std::vector<Point> readPointsFromCsv(std::string filename) {
     // Initialise the vector
     std::vector<Point> points;
 
-    // Use csv parser to read input data
+    // Use csv parser library to read input data
     io::CSVReader<3> in(filename);
     double x, y;
     int label;
@@ -73,18 +74,23 @@ std::vector<Point> readPointsFromCsv(std::string filename) {
         Point p = {x, y, label};
         points.push_back(p);
     }
-    // Delete this testing part below //FIXME:
-    for (auto i = points.begin(); i != points.end(); i++) {
-        std::cout << i->x << ',' << i->y << ',' << i->label << std::endl;
-    }
     return points;
 }
 
 int main() {
     // Testing start
-    Point a = {0, 0, 0};
+    Point p = {0, 0, 0};
+    int k = 4;
     std::vector<Point> training = readPointsFromCsv("input.csv");
-    /* std::cout << predictPointLabel(training, 4, 4, a); */
+    std::cout << predictPointLabel(training, training.size(), k, p);
     // Testing end
+    // Plotting
+    std::vector<double> trainX;
+    std::vector<double> trainY;
+    for (auto i=training.begin(); i!=training.end(); i++) {
+        trainX.push_back(training[i].x);
+        trainY.push_back(training[i].y);
+    }
+    plt::plot(trainX, trainY);
     return 0;
 }
