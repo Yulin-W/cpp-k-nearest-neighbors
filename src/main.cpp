@@ -73,6 +73,7 @@ std::vector<Point> readPointsFromCsv(std::string filename) {
         Point p = {x, y, label};
         points.push_back(p);
     }
+    // Delete this testing part below //FIXME:
     for (auto i = points.begin(); i != points.end(); i++) {
         std::cout << i->x << ',' << i->y << ',' << i->label << std::endl;
     }
