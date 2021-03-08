@@ -4,8 +4,6 @@
 #include <vector>
 #include <string>
 #include "./fast-cpp-csv-parser-master/csv.h"
-#include "./matplotlib-cpp-master/matplotlibcpp.h"
-namespace plt = matplotlibcpp;
 
 typedef struct {
     double x, y;
@@ -84,13 +82,5 @@ int main() {
     std::vector<Point> training = readPointsFromCsv("input.csv");
     std::cout << predictPointLabel(training, training.size(), k, p);
     // Testing end
-    // Plotting
-    std::vector<double> trainX;
-    std::vector<double> trainY;
-    for (auto i=training.begin(); i!=training.end(); i++) {
-        trainX.push_back(training[i].x);
-        trainY.push_back(training[i].y);
-    }
-    plt::plot(trainX, trainY);
     return 0;
 }
