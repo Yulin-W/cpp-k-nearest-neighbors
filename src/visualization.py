@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas
+import knnlabel
+
+status = spam.system("ls -l")
 
 df = pandas.read_csv("./input.csv", header=None)
 groups = df.groupby(df.columns[2])

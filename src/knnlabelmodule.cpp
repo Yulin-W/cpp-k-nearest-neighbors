@@ -1,3 +1,6 @@
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 #include <iostream>
 #include <algorithm>
 #include <math.h>
@@ -73,6 +76,18 @@ std::vector<Point> readPointsFromCsv(std::string filename) {
         points.push_back(p);
     }
     return points;
+}
+
+static PyObject *
+spam_system(PyObject *self, PyObject *args)
+{
+    const char *command;
+    int sts;
+
+    if (!PyArg_ParseTuple(args, "s", &command))
+        return NULL;
+    sts = system(command);
+    return PyLong_FromLong(sts);
 }
 
 int main() {
