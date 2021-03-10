@@ -33,12 +33,6 @@ def rings(x, y):
     else:
         return 4
 
-def xaxisbound(x, y):
-    if x>=0:
-        return 0
-    else:
-        return 1
-
 def yequalsxbound(x, y):
     if y>=x:
         return 0
@@ -56,7 +50,6 @@ def generate_data(nPoint, labeller, x_bound, y_bound, filename):
     df.to_csv(filename, index=False, header=False)
 
 # Running generation
-generate_data(50, quadrant, 10, 10, "quadrant.csv")
-generate_data(50, rings, 10, 10, "rings.csv")
-generate_data(50, xaxisbound, 10, 10, "xaxisbound.csv")
-generate_data(50, yequalsxbound, 10, 10, "yequalsxbound.csv")
+generate_data(50000, quadrant, 10, 10, "quadrant.csv")
+generate_data(50000, rings, 10, 10, "rings.csv")
+generate_data(50000, yequalsxbound, 10, 10, "yequalsxbound.csv")

@@ -7,12 +7,12 @@
 #include <tuple>
 #include "./fast-cpp-csv-parser-master/csv.h"
 
-#define K 4
+#define K 500
 
 typedef struct {
-    double x, y;
-    int label;
-    double distanceSquared;
+    long double x, y;
+    long long label;
+    long double distanceSquared;
 } Point;
 
 double euclideanSquaredDistance(Point a, Point b) {
