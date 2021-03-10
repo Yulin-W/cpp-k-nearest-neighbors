@@ -1,12 +1,13 @@
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
-
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include <math.h>
 #include <vector>
 #include <string>
+#include <tuple>
 #include "./fast-cpp-csv-parser-master/csv.h"
+
+#define K 4
 
 typedef struct {
     double x, y;
@@ -62,40 +63,63 @@ int predictPointLabel(std::vector<Point> trainingSet, int nTrain, int k, Point p
     return mostCommonLabel;
 }
 
+std::vector<int> predictMultiplePointLabel(std::vector<Point> trainingSet, int nTrain, int k, std::vector<Point> input, int nInput) {
+    std::vector<int> predictions;
+    for (int i=0; i<nInput; i++) {
+        predictions.push_back(predictPointLabel(trainingSet, nTrain, k, input[i]));
+    }
+    return predictions;
+}
+
 // Reads a Point array from a csv file
-std::vector<Point> readPointsFromCsv(std::string filename) {
+std::tuple<std::vector<Point>, int> readPointsFromCsv(std::string filename) {
     // Initialise the vector
     std::vector<Point> points;
 
     // Use csv parser library to read input data
     io::CSVReader<3> in(filename);
     double x, y;
-    int label;
+    int label, nPoints=0;
     while(in.read_row(x, y, label)) {
         Point p = {x, y, label};
         points.push_back(p);
+        nPoints++;
     }
-    return points;
+    return std::make_tuple(points, nPoints);
 }
 
-static PyObject *
-spam_system(PyObject *self, PyObject *args)
-{
-    const char *command;
-    int sts;
+// Reads a Point array without label from a csv file
+std::tuple<std::vector<Point>, int> readUnlabelledPointsFromCsv(std::string filename) {
+    // Initialise the vector
+    std::vector<Point> points;
 
-    if (!PyArg_ParseTuple(args, "s", &command))
-        return NULL;
-    sts = system(command);
-    return PyLong_FromLong(sts);
+    // Use csv parser library to read input data
+    io::CSVReader<2> in(filename);
+    double x, y;
+    int nPoints=0;
+    while(in.read_row(x, y)) {
+        Point p = {x, y};
+        points.push_back(p);
+        nPoints++;
+    }
+    return std::make_tuple(points, nPoints);
 }
 
 int main() {
-    // Testing start
-    Point p = {0, 0, 0};
-    int k = 4;
-    std::vector<Point> training = readPointsFromCsv("input.csv");
-    std::cout << predictPointLabel(training, training.size(), k, p);
+    // Read training and input data from respective files
+    auto [training, nTraining] = readPointsFromCsv("training.csv");
+    auto [input, nInput] = readUnlabelledPointsFromCsv("input.csv");
+
+    // Predict output for input
+    std::vector<int> predictions = predictMultiplePointLabel(training, training.size(), K, input, input.size());
+
+    // Write output to output.csv
+    std::ofstream outputFile("output.csv");
+    for (int i=0; i<nInput; i++) {
+        outputFile << predictions[i] << std::endl;
+    }
+    outputFile.close();
+
     // Testing end
     return 0;
 }

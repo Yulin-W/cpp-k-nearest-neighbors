@@ -45,7 +45,11 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "thread": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "numeric": "cpp"
     },
     "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe"
 }
