@@ -51,9 +51,9 @@ def generate_data(nPoint, labeller, x_bound, y_bound, filename):
     points = []
     for i in range(nPoint):
         point = rand_point(x_bound, y_bound)
-        points.append((*point, labeller(point)))
+        points.append((*point, labeller(*point)))
     df = pd.DataFrame(points)
-    df.to_csv(filename)
+    df.to_csv(filename, index=False, header=False)
 
 # Running generation
 generate_data(50, quadrant, 10, 10, "quadrant.csv")
