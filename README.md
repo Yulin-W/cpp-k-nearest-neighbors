@@ -1,6 +1,7 @@
 # CPP k nearest neighbor
 ## Example output plots of the code
 - Different colors represent different labels, round point represent training set, cross represent input with predicted labels
+
 ![Quadrant](https://raw.githubusercontent.com/Yulin-W/cpp-k-nearest-neighbors/main/examples/quadrant.png)
 ![Rings](https://raw.githubusercontent.com/Yulin-W/cpp-k-nearest-neighbors/main/examples/rings.png)
 ![Line y=x](https://raw.githubusercontent.com/Yulin-W/cpp-k-nearest-neighbors/main/examples/yequalsxbound.png)
